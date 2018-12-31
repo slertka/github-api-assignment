@@ -1,4 +1,5 @@
 function createRepoHTML(responseJSON){
+    $('#error-message').empty();
     $('#results-list').empty();
     for (let i=0; i<responseJSON.length; i++){
         $('#results-list').append(`
@@ -22,6 +23,7 @@ function displayRepos(){
         })
         .then(responseJson => createRepoHTML(responseJson))
         .catch(err => {
+            $('#results-list').empty();
             $('#error-message').html(`<p>User not found. Please enter a valid username.</p>`)
         });
 }
