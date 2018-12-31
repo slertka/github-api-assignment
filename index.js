@@ -1,3 +1,15 @@
+function createRepoHTML(responseJSON){
+    $('#results-list').empty();
+    for (let i=0; i<responseJSON.length; i++){
+        $('#results-list').append(`
+            <li>
+                <h2><a href='${responseJSON[i].html_url}'>${responseJSON[i].name}</a></h2>
+            </li>
+        `)
+    }
+    $('#results').removeClass('hidden');
+}
+
 function displayRepos(){
     let user = $('form').find('#username').val();
     let url = `https://api.github.com/users/${user}/repos`;
@@ -8,8 +20,10 @@ function displayRepos(){
             }
             throw new Error(response.statusText)
         })
-        .then(responseJson => console.log(responseJson))
-        .catch(err => console.log(err.message));
+        .then(responseJson => createRepoHTML(responseJson))
+        .catch(err => {
+            $('#error-message').html(`<p>User not found. Please enter a valid username.</p>`)
+        });
 }
 
 function watchForm(){
